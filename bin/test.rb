@@ -8,6 +8,15 @@ server = UNIXServer.new('/tmp/test.sock')
 
 logger = Logger.new(STDOUT)
 
+
+trap('INT') do
+  logger.debug 'Caught SIGINT, shutting down'
+  client.disconnect if respond_to?(:client)
+  server.close
+  rrdcached_socket.close
+  exit 0
+end
+
 loop do
   logger.debug "waiting for client"
   client = server.accept
