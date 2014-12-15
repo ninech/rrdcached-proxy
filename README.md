@@ -1,6 +1,6 @@
 # RRDcached Proxy
 
-Proof of concept of a RRDcached proxy.
+Proof of concept for a RRDcached proxy.
 
 ## Setup
 
