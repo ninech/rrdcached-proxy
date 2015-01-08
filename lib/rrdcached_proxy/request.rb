@@ -11,8 +11,9 @@ module RRDCachedProxy
     end
 
     def arguments
+      return @arguments if @arguments
       return [] unless data[:arguments]
-      data[:arguments].split(' ')
+      @arguments = data[:arguments].split(' ')
     end
 
     def update?

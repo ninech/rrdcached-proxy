@@ -35,6 +35,10 @@ RSpec.describe RRDCachedProxy::Request do
     describe '#arguments' do
       subject { instance.arguments }
       it { is_expected.to eq(%w(lala.rrd 1420717489:1)) }
+
+      it 'caches the value' do
+        expect { instance.arguments.shift }.to change { instance.arguments }
+      end
     end
 
     describe '#update?' do
