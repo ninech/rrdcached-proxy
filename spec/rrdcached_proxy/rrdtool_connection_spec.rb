@@ -5,11 +5,11 @@ require 'logger'
 require 'rrdcached_proxy/rrdtool_connection'
 require 'rrdcached_proxy/backends/base'
 
-EM.describe RRDCachedProxy::RRDToolConnection do
+RSpec.describe RRDCachedProxy::RRDToolConnection do
   class TestConnection < RRDCachedProxy::RRDToolConnection
     attr_accessor :sent_data
 
-    def send_data data
+    def send_data(data)
       self.sent_data += data
     end
 

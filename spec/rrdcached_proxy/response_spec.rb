@@ -59,7 +59,7 @@ RSpec.describe RRDCachedProxy::Response do
         socket.rewind
       end
 
-      it { is_expected.to eq("line\n" * 10 ) }
+      it { is_expected.to eq("line\n" * 10) }
     end
   end
 end
