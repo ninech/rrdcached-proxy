@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'pathname'
+
+APP_ROOT = File.join(File.dirname(Pathname.new(__FILE__).realpath),'..')
+
+$:.unshift File.join(APP_ROOT, 'lib')
+$:.unshift File.join(APP_ROOT, 'vendor/bundle')
+
+Dir.chdir(APP_ROOT)
+
+require 'bundler/setup'
+
+require 'rrdcached_proxy/daemon'
+
+RRDCachedProxy::Daemon.run
