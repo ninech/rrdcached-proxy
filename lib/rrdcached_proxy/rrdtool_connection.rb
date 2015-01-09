@@ -3,6 +3,8 @@ require 'eventmachine'
 require 'rrdcached_proxy/response_info'
 require 'rrdcached_proxy/response'
 require 'rrdcached_proxy/update_data'
+require 'rrdcached_proxy/request'
+require 'rrdcached_proxy/rrd_file_info'
 
 module RRDCachedProxy
   class RRDToolConnection < EventMachine::Connection
@@ -21,9 +23,16 @@ module RRDCachedProxy
       logger.debug "new request: #{data}"
       logger.debug 'opening connection to rrdcached'
 
-      if data =~ /^UPDATE /
-        logger.debug 'UPDATE called, writing to backend'
-        backend.write UpdateData.new(data)
+      request = Request.new(data)
+
+      if request.update?
+        logger.debug 'UPDATE called'
+
+        logger.debug 'fetching rrd info'
+        field_names = RRDFileInfo.field_names(request.arguments.first)
+
+        logger.debug 'writing to backend'
+        backend.write UpdateData.new(request, field_names).points
       end
 
       logger.debug 'pushing to rrdcached'

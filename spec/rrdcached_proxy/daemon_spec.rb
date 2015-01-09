@@ -7,6 +7,7 @@ RSpec.describe RRDCachedProxy::Daemon do
     before do
       allow(EventMachine).to receive(:run).and_yield
       allow(EventMachine).to receive(:start_unix_domain_server)
+      allow(RRDCachedProxy::Backends::InfluxDB).to receive(:new).and_return('influxdb-backend')
     end
 
     it 'starts a new eventmachine server on a socket' do
@@ -15,12 +16,12 @@ RSpec.describe RRDCachedProxy::Daemon do
       RRDCachedProxy::Daemon.run
     end
 
-    it 'provides the socket, the service and the logger' do
+    it 'provides the socket, the service, the logger and the backend' do
       expect(EventMachine).to receive(:start_unix_domain_server).with(
         instance_of(String),
         RRDCachedProxy::RRDToolConnection,
         instance_of(Logger),
-        instance_of(RRDCachedProxy::Backends::Base))
+        'influxdb-backend')
 
       RRDCachedProxy::Daemon.run
     end

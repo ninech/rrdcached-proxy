@@ -9,6 +9,9 @@ GEM
       rspec (> 2.6.0)
       test-unit
     eventmachine (1.0.4)
+    influxdb (0.1.8)
+      json
+    json (1.8.1)
     power_assert (0.2.2)
     rrd-ruby (1.0.1)
     rspec (3.1.0)
@@ -32,5 +35,6 @@ PLATFORMS
 DEPENDENCIES
   em-spec
   eventmachine
+  influxdb
   rrd-ruby
   rspec
