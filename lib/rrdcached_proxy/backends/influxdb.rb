@@ -8,13 +8,7 @@ module RRDCachedProxy
       def initialize(config)
         super
 
-        # @config = {
-        #   username: 'root',
-        #   password: 'root',
-        #   hosts: %w(influx01-staging.nine.ch),
-        # }
         ::InfluxDB::Logging.logger = @config[:logger]
-
         ensure_database
       end
 
