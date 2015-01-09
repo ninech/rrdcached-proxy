@@ -9,4 +9,5 @@ gem 'syslogger'
 group :development, :test do
   gem 'rspec'
   gem 'em-spec', require: false
+  gem 'rake'
 end
