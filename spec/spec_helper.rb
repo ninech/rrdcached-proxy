@@ -2,6 +2,8 @@ APP_ROOT = File.join(File.dirname(Pathname.new(__FILE__).realpath), '..')
 
 Dir[File.join(APP_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
 
+require 'influxdb'
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

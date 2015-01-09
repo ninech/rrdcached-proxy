@@ -11,6 +11,6 @@ Dir.chdir(APP_ROOT)
 
 require 'bundler/setup'
 
-require 'rrdcached_proxy/daemon'
+require 'rrdcached_proxy/cli'
 
-RRDCachedProxy::Daemon.run
+RRDCachedProxy::CLI.run ARGV
