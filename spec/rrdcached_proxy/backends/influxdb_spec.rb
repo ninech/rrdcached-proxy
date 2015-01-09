@@ -9,7 +9,7 @@ RSpec.describe RRDCachedProxy::Backends::InfluxDB do
   let(:instance) { RRDCachedProxy::Backends::InfluxDB.new(config) }
   let(:database_name) { Socket.gethostname }
   let(:logger) { Logger.new(StringIO.new) }
-  let(:config) { { logger: logger} }
+  let(:config) { { logger: logger } }
 
   before do
     allow(::InfluxDB::Client).to receive(:new).and_return(influx_connection_double)
@@ -24,7 +24,7 @@ RSpec.describe RRDCachedProxy::Backends::InfluxDB do
     context 'database exists' do
       before do
         allow(influx_connection_double).
-          to receive(:get_database_list).and_return([{'name' => database_name}])
+          to receive(:get_database_list).and_return([{ 'name' => database_name }])
       end
 
       it 'does not create the database' do

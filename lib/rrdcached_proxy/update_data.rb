@@ -33,7 +33,7 @@ module RRDCachedProxy
       timestamp = sanitize_timestamp value_as_array.shift
       field_values = value_as_array.shift(field_names.length)
 
-      [ timestamp, field_values ]
+      [timestamp, field_values]
     end
 
     def sanitize_timestamp(timestamp)

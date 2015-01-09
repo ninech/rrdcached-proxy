@@ -47,4 +47,3 @@ RSpec.describe RRDCachedProxy::Request do
     end
   end
 end
-

@@ -1,4 +1,4 @@
-APP_ROOT = File.join(File.dirname(Pathname.new(__FILE__).realpath),'..')
+APP_ROOT = File.join(File.dirname(Pathname.new(__FILE__).realpath), '..')
 
 Dir[File.join(APP_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
 

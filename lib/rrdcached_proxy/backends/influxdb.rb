@@ -39,7 +39,7 @@ module RRDCachedProxy
       end
 
       def ensure_database
-        return if connection.get_database_list.find { |db| db['name'] == database }
+        return if connection.get_database_list.detect { |db| db['name'] == database }
         logger.info "[InfluxDB] Creating database #{database}"
         connection.create_database database
       end
