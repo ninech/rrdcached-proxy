@@ -10,4 +10,5 @@ group :development, :test do
   gem 'rspec'
   gem 'em-spec', require: false
   gem 'rake'
+  gem 'codeclimate-test-reporter', require: nil
 end
