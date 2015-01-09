@@ -73,7 +73,7 @@ module RRDCachedProxy
         end
 
         opts.on('-h', '--help', 'Prints this help') do
-          puts opts
+          $stderr.puts opts
           exit 0
         end
 
