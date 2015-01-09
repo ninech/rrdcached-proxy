@@ -78,10 +78,16 @@ RSpec.describe RRDCachedProxy::RRDToolConnection do
 
       before do
         allow(rrdcached_socket).to receive(:gets).and_return("0 errors, enqueued 1 value(s).\n")
+        allow(RRDCachedProxy::RRDFileInfo).to receive(:field_names).and_return(%w(name1))
       end
 
       it 'calls the backend to push the data as well' do
-        expect(backend).to receive(:write).with(instance_of(RRDCachedProxy::UpdateData))
+        expect(backend).to receive(:write).with(instance_of(Array))
+        instance.receive_line(data)
+      end
+
+      it 'fetches the field names' do
+        expect(RRDCachedProxy::RRDFileInfo).to receive(:field_names).with('lala.rrd').and_return(%w(name1))
         instance.receive_line(data)
       end
     end

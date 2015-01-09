@@ -8,10 +8,12 @@ module RRDCachedProxy
   class Daemon
     def self.run
       EventMachine.run do
+        logger = Logger.new(STDOUT)
+        backend_config = { logger: logger }
         EventMachine::start_unix_domain_server '/tmp/test.sock',
                                                RRDToolConnection,
-                                               Logger.new(STDOUT),
-                                               Backends::Base.new
+                                               logger,
+                                               Backends::InfluxDB.new(backend_config)
       end
     end
   end
