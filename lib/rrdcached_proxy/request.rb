@@ -7,7 +7,7 @@ module RRDCachedProxy
     end
 
     def command
-      data[:command]
+      data[:command].upcase
     end
 
     def arguments
@@ -23,7 +23,7 @@ module RRDCachedProxy
     private
 
     def data
-      @data ||= raw.match /^(?<command>[A-Z]+)(?: (?<arguments>.+))?/
+      @data ||= raw.match /^(?<command>[A-Za-z]+)(?: (?<arguments>.+))?/
     end
   end
 end

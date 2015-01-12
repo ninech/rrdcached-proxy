@@ -25,25 +25,37 @@ RSpec.describe RRDCachedProxy::Request do
   end
 
   context 'UPDATE command' do
-    let(:input) { 'UPDATE lala.rrd 1420717489:1' }
+    shared_examples_for 'update command' do
+      describe '#command' do
+        subject { instance.command }
+        it { is_expected.to eq('UPDATE') }
+      end
 
-    describe '#command' do
-      subject { instance.command }
-      it { is_expected.to eq('UPDATE') }
-    end
+      describe '#arguments' do
+        subject { instance.arguments }
+        it { is_expected.to eq(%w(lala.rrd 1420717489:1)) }
 
-    describe '#arguments' do
-      subject { instance.arguments }
-      it { is_expected.to eq(%w(lala.rrd 1420717489:1)) }
+        it 'caches the value' do
+          expect { instance.arguments.shift }.to change { instance.arguments }
+        end
+      end
 
-      it 'caches the value' do
-        expect { instance.arguments.shift }.to change { instance.arguments }
+      describe '#update?' do
+        subject { instance.update? }
+        it { is_expected.to eq(true) }
       end
     end
 
-    describe '#update?' do
-      subject { instance.update? }
-      it { is_expected.to eq(true) }
+    context 'uppercase' do
+      it_behaves_like 'update command' do
+        let(:input) { 'UPDATE lala.rrd 1420717489:1' }
+      end
+    end
+
+    context 'lower case' do
+      it_behaves_like 'update command' do
+        let(:input) { 'update lala.rrd 1420717489:1' }
+      end
     end
   end
 end
