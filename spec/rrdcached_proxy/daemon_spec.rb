@@ -5,11 +5,22 @@ require 'rrdcached_proxy/daemon'
 RSpec.describe RRDCachedProxy::Daemon do
   let(:config) do
     {
-      listen_socket: '/tmp/test.sock',
+      rrdcached_socket: '/tmp/rrdcached.sock',
+      listen_socket: '/tmp/listen.sock',
       log: { destination: :stdout, level: :debug }
     }
   end
   let(:instance) { RRDCachedProxy::Daemon.new(config) }
+  let(:file_stat_double) { instance_double(File::Stat) }
+
+  before do
+    allow(file_stat_double).to receive(:uid).and_return(1000)
+    allow(file_stat_double).to receive(:gid).and_return(1000)
+    allow(file_stat_double).to receive(:mode).and_return(0644)
+    allow(File::Stat).to receive(:new).with('/tmp/rrdcached.sock').and_return(file_stat_double)
+    allow(File).to receive(:chmod)
+    allow(File).to receive(:chown)
+  end
 
   describe '#run' do
     before do
@@ -90,6 +101,24 @@ RSpec.describe RRDCachedProxy::Daemon do
         config[:log][:level] = 'fatal'
       end
       specify { expect(instance.logger.level).to eq(Logger::FATAL) }
+    end
+  end
+
+  describe '#set_socket_permissions' do
+    let(:file_stat_double) { instance_double(File::Stat) }
+
+    it 'reads the permssions from the rrdcached socket' do
+      expect(File::Stat).to receive(:new).with('/tmp/rrdcached.sock').and_return(file_stat_double)
+      instance.set_socket_permissions
+    end
+
+    it 'sets the same permissions as rrdcached socket has' do
+      allow(file_stat_double).to receive(:uid).and_return(1337)
+      allow(file_stat_double).to receive(:gid).and_return(1337)
+      allow(file_stat_double).to receive(:mode).and_return(0140755)
+      expect(File).to receive(:chown).with(1337, 1337, '/tmp/listen.sock')
+      expect(File).to receive(:chmod).with(0140755, '/tmp/listen.sock')
+      instance.set_socket_permissions
     end
   end
 end

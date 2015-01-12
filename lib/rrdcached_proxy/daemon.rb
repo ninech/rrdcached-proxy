@@ -15,6 +15,7 @@ module RRDCachedProxy
     def run
       EventMachine.run do
         EventMachine.start_unix_domain_server @config[:listen_socket], RRDToolConnection, logger, backend
+        set_socket_permissions
       end
     end
 
@@ -45,6 +46,12 @@ module RRDCachedProxy
       else
         Backends::Base.new backend_config
       end
+    end
+
+    def set_socket_permissions
+      stat = File::Stat.new @config[:rrdcached_socket]
+      File.chown stat.uid, stat.gid, @config[:listen_socket]
+      File.chmod stat.mode, @config[:listen_socket]
     end
   end
 end
