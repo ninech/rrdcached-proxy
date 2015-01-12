@@ -1,3 +1,14 @@
+rrdcached-proxy (0.0.1) unstable; urgency=low
+
+  * Fix ruby path in bin file
+  * Fix symlink to bin file
+  * Copy over the permissions for the socket from rrdcached socket
+  * --rrdcached-socket is not used
+  * Handle lowercase update command
+  * Handle float as value
+
+ -- Raffael Schmid <raffael.schmid@nine.ch>  Mon, 12 Jan 2015 14:22:37 +0000
+
 rrdcached-proxy (0.0.0) unstable; urgency=low
 
   * Initial Release.
