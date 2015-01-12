@@ -7,7 +7,7 @@ RSpec.describe RRDCachedProxy::Daemon do
     {
       rrdcached_socket: '/tmp/rrdcached.sock',
       listen_socket: '/tmp/listen.sock',
-      log: { destination: :stdout, level: :debug }
+      log: { destination: :stdout, level: :fatal }
     }
   end
   let(:instance) { RRDCachedProxy::Daemon.new(config) }
@@ -36,12 +36,14 @@ RSpec.describe RRDCachedProxy::Daemon do
     end
 
     context 'no backend specified' do
-      it 'provides the socket, the service, the logger and the backend' do
+      it 'provides the socket, the service, the logger, the backend and the rrdcached socket' do
         expect(EventMachine).to receive(:start_unix_domain_server).with(
           instance_of(String),
           RRDCachedProxy::RRDToolConnection,
           instance_of(Logger),
-          instance_of(RRDCachedProxy::Backends::Base))
+          instance_of(RRDCachedProxy::Backends::Base),
+          '/tmp/rrdcached.sock',
+        )
 
         instance.run
       end
@@ -58,7 +60,9 @@ RSpec.describe RRDCachedProxy::Daemon do
           instance_of(String),
           RRDCachedProxy::RRDToolConnection,
           instance_of(Logger),
-          'influxdb-backend')
+          'influxdb-backend',
+          '/tmp/rrdcached.sock',
+        )
 
         instance.run
       end

@@ -12,7 +12,7 @@ module RRDCachedProxy
 
     attr_reader :logger, :rrdcached_socket, :backend
 
-    def initialize(logger, backend, rrdcached_socket = '/var/run/rrdcached.sock')
+    def initialize(logger, backend, rrdcached_socket)
       @logger = logger
       @backend = backend
       @rrdcached_socket = UNIXSocket.new(rrdcached_socket)

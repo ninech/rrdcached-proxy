@@ -13,8 +13,15 @@ module RRDCachedProxy
     end
 
     def run
+      logger.debug "Config: #{@config}"
       EventMachine.run do
-        EventMachine.start_unix_domain_server @config[:listen_socket], RRDToolConnection, logger, backend
+        EventMachine.start_unix_domain_server(
+          @config[:listen_socket],
+          RRDToolConnection,
+          logger,
+          backend,
+          @config[:rrdcached_socket],
+        )
         set_socket_permissions
       end
     end

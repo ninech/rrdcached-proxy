@@ -23,8 +23,9 @@ RSpec.describe RRDCachedProxy::RRDToolConnection do
   let(:rrdcached_socket) { StringIO.new }
   let(:em_signature) { 1337 }
   let(:backend) { double(RRDCachedProxy::Backends::Base) }
+  let(:socket) { '/var/run/rrdcached.sock' }
 
-  let(:instance) { TestConnection.new(em_signature, logger, backend) }
+  let(:instance) { TestConnection.new(em_signature, logger, backend, socket) }
 
   before do
     allow(UNIXSocket).to receive(:new).with(instance_of(String)).and_return(rrdcached_socket)
