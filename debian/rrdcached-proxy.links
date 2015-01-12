@@ -1,0 +1,1 @@
+/usr/lib/rrdcached-proxy/bin/manage-vhosts /usr/bin/rrdcached-proxy

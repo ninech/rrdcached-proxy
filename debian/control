@@ -1,0 +1,11 @@
+Source: rrdcached-proxy
+Section: unknown
+Priority: extra
+Maintainer: Raffael Schmid <raffael.schmid@nine.ch>
+Build-Depends: debhelper (>= 8.0.0), ruby1.9.1, ruby1.9.1-dev, locales
+Standards-Version: 3.9.2
+
+Package: rrdcached-proxy
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Allows forwarding rrdtool updates to other backends.

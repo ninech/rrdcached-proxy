@@ -1,0 +1,7 @@
+Gemfile usr/lib/rrdcached-proxy
+Gemfile.lock usr/lib/rrdcached-proxy
+VERSION usr/lib/rrdcached-proxy
+bin usr/lib/rrdcached-proxy
+lib usr/lib/rrdcached-proxy
+vendor usr/lib/rrdcached-proxy
+.bundle usr/lib/rrdcached-proxy
