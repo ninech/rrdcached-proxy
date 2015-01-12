@@ -26,6 +26,16 @@ RSpec.describe RRDCachedProxy::UpdateData do
       specify { expect(subject.first.timestamp).to eq(1420721875) }
     end
 
+    context 'float value' do
+      let(:arguments) { %w(1420721875:0.1) }
+      let(:field_names) { %w(ifOutOctets) }
+
+      specify { expect(subject.length).to eq(1) }
+      specify { expect(subject.first.name).to eq('ifOutOctets') }
+      specify { expect(subject.first.value).to eq(0.1) }
+      specify { expect(subject.first.timestamp).to eq(1420721875) }
+    end
+
     context 'N timestamp' do
       let(:arguments) { %w(N:1) }
       let(:field_names) { %w(ifOutOctets) }

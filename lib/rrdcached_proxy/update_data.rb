@@ -19,7 +19,7 @@ module RRDCachedProxy
         timestamp, field_values = extract_timestamp_and_field_values timestamped_value
 
         field_values.each_with_index do |value, index|
-          @points << Point.new(field_names[index], value.to_i, timestamp)
+          @points << Point.new(field_names[index], value.to_f, timestamp)
         end
       end
 
