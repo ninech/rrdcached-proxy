@@ -10,12 +10,16 @@ module RRDCachedProxy
   class RRDToolConnection < EventMachine::Connection
     include EventMachine::Protocols::LineProtocol
 
-    attr_reader :logger, :rrdcached_socket, :backend
+    attr_reader :logger, :rrdcached_socket, :backend, :blacklist
 
-    def initialize(logger, backend, rrdcached_socket)
-      @logger = logger
-      @backend = backend
-      @rrdcached_socket = UNIXSocket.new(rrdcached_socket)
+    def initialize(config)
+      @logger = config[:logger]
+      @backend = config[:backend]
+      @rrdcached_socket = UNIXSocket.new config[:rrdcached_socket]
+      @blacklist = config[:blacklist]
+
+      @logger.debug "Connection got config: #{config}"
+
       super
     end
 
@@ -27,12 +31,7 @@ module RRDCachedProxy
 
       if request.update?
         logger.debug 'UPDATE called'
-
-        logger.debug 'fetching rrd info'
-        field_names = RRDFileInfo.field_names(request.arguments.first)
-
-        logger.debug 'writing to backend'
-        backend.write UpdateData.new(request, field_names).points
+        handle_update request
       end
 
       logger.debug 'pushing to rrdcached'
@@ -50,6 +49,15 @@ module RRDCachedProxy
       response = Response.new(response_info, rrdcached_socket).read
       send_data response if response
       logger.debug 'sending response finished'
+    end
+
+    def handle_update(request)
+      return if request.arguments.first =~ @blacklist
+      logger.debug 'fetching rrd info'
+      field_names = RRDFileInfo.field_names(request.arguments.first)
+
+      logger.debug 'writing to backend'
+      backend.write UpdateData.new(request, field_names).points
     end
 
     def unbind

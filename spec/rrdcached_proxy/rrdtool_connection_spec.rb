@@ -24,8 +24,12 @@ RSpec.describe RRDCachedProxy::RRDToolConnection do
   let(:em_signature) { 1337 }
   let(:backend) { double(RRDCachedProxy::Backends::Base) }
   let(:socket) { '/var/run/rrdcached.sock' }
+  let(:blacklist) { nil }
 
-  let(:instance) { TestConnection.new(em_signature, logger, backend, socket) }
+  let(:instance) { TestConnection.new(em_signature, logger: logger,
+                                                    backend: backend,
+                                                    rrdcached_socket: socket,
+                                                    blacklist: blacklist) }
 
   before do
     allow(UNIXSocket).to receive(:new).with(instance_of(String)).and_return(rrdcached_socket)
@@ -90,6 +94,15 @@ RSpec.describe RRDCachedProxy::RRDToolConnection do
       it 'fetches the field names' do
         expect(RRDCachedProxy::RRDFileInfo).to receive(:field_names).with('lala.rrd').and_return(%w(name1))
         instance.receive_line(data)
+      end
+
+      context 'blacklisted rrd' do
+        let(:blacklist) { Regexp.new('lala.+') }
+
+        it 'does not call the backend' do
+          expect(backend).to_not receive(:write)
+          instance.receive_line data
+        end
       end
     end
   end
