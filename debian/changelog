@@ -1,0 +1,5 @@
+rrdcached-proxy (0.0.0) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Raffael Schmid <raffael.schmid@nine.ch>  Mon, 12 Jan 2015 11:09:37 +0000
