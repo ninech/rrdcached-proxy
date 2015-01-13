@@ -13,15 +13,17 @@ module RRDCachedProxy
     end
 
     def run
-      logger.debug "Config: #{@config}"
+      logger.debug "Running daemon with config: #{@config}"
+
+      connection_config = {
+        logger: logger,
+        backend: backend,
+        rrdcached_socket: @config[:rrdcached_socket],
+        blacklist: @config[:blacklist],
+      }
+
       EventMachine.run do
-        EventMachine.start_unix_domain_server(
-          @config[:listen_socket],
-          RRDToolConnection,
-          logger,
-          backend,
-          @config[:rrdcached_socket],
-        )
+        EventMachine.start_unix_domain_server @config[:listen_socket], RRDToolConnection, connection_config
         set_socket_permissions
       end
     end
