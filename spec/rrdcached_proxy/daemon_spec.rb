@@ -40,12 +40,10 @@ RSpec.describe RRDCachedProxy::Daemon do
         expect(EventMachine).to receive(:start_unix_domain_server).with(
           instance_of(String),
           RRDCachedProxy::RRDToolConnection,
-          {
-            logger: instance_of(Logger),
-            backend: instance_of(RRDCachedProxy::Backends::Base),
-            rrdcached_socket: '/tmp/rrdcached.sock',
-            blacklist: nil,
-          }
+          logger: instance_of(Logger),
+          backend: instance_of(RRDCachedProxy::Backends::Base),
+          rrdcached_socket: '/tmp/rrdcached.sock',
+          blacklist: nil,
         )
 
         instance.run
@@ -62,12 +60,10 @@ RSpec.describe RRDCachedProxy::Daemon do
         expect(EventMachine).to receive(:start_unix_domain_server).with(
           instance_of(String),
           RRDCachedProxy::RRDToolConnection,
-          {
-            logger: instance_of(Logger),
-            backend: 'influxdb-backend',
-            rrdcached_socket: '/tmp/rrdcached.sock',
-            blacklist: nil,
-          }
+          logger: instance_of(Logger),
+          backend: 'influxdb-backend',
+          rrdcached_socket: '/tmp/rrdcached.sock',
+          blacklist: nil,
         )
 
         instance.run

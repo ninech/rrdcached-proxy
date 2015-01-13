@@ -26,10 +26,12 @@ RSpec.describe RRDCachedProxy::RRDToolConnection do
   let(:socket) { '/var/run/rrdcached.sock' }
   let(:blacklist) { nil }
 
-  let(:instance) { TestConnection.new(em_signature, logger: logger,
-                                                    backend: backend,
-                                                    rrdcached_socket: socket,
-                                                    blacklist: blacklist) }
+  let(:instance) do
+    TestConnection.new(em_signature, logger: logger,
+                                     backend: backend,
+                                     rrdcached_socket: socket,
+                                     blacklist: blacklist)
+  end
 
   before do
     allow(UNIXSocket).to receive(:new).with(instance_of(String)).and_return(rrdcached_socket)
