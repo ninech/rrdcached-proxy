@@ -13,7 +13,7 @@ module RRDCachedProxy
     end
 
     def run
-      logger.debug "Daemon got config: #{@config}"
+      logger.debug "Running daemon with config: #{@config}"
 
       connection_config = {
         logger: logger,

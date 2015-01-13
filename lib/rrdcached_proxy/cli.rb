@@ -72,7 +72,7 @@ module RRDCachedProxy
           options[:config][:log][:level] = log_level
         end
 
-        opts.on('--blacklist=BLACKLIST', 'Regexp which excludes RRD file paths to be sent to backend') do |regexp|
+        opts.on('--blacklist=BLACKLIST', 'Regular expression to exclude RRD file paths from being sent to the backend') do |regexp|
           options[:config][:blacklist] = Regexp.new regexp
         end
 

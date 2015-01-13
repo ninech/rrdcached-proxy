@@ -18,14 +18,14 @@ module RRDCachedProxy
       @rrdcached_socket = UNIXSocket.new config[:rrdcached_socket]
       @blacklist = config[:blacklist]
 
-      @logger.debug "Connection got config: #{config}"
+      @logger.debug "Connection config: #{config}"
 
       super
     end
 
     def receive_line(data)
-      logger.debug "new request: #{data}"
-      logger.debug 'opening connection to rrdcached'
+      logger.debug "New request: #{data}"
+      logger.debug 'Opening connection to rrdcached'
 
       request = Request.new(data)
 
@@ -34,34 +34,34 @@ module RRDCachedProxy
         handle_update request
       end
 
-      logger.debug 'pushing to rrdcached'
+      logger.debug 'Pushing to rrdcached'
       rrdcached_socket.puts data
 
-      logger.debug 'waiting for rrdcached response'
+      logger.debug 'Waiting for rrdcached response'
       response_info_line = rrdcached_socket.gets
 
       response_info = ResponseInfo.new response_info_line
 
-      logger.debug 'sending response to client'
+      logger.debug 'Sending response to client'
       send_data response_info_line
 
       logger.debug "rrdcached response info: #{response_info.to_h}"
       response = Response.new(response_info, rrdcached_socket).read
       send_data response if response
-      logger.debug 'sending response finished'
+      logger.debug 'Sending response finished'
     end
 
     def handle_update(request)
       return if request.arguments.first =~ @blacklist
-      logger.debug 'fetching rrd info'
+      logger.debug 'Fetching rrd info'
       field_names = RRDFileInfo.field_names(request.arguments.first)
 
-      logger.debug 'writing to backend'
+      logger.debug 'Writing to backend'
       backend.write UpdateData.new(request, field_names).points
     end
 
     def unbind
-      logger.debug 'client disconnected, disconnecting from rrdcached'
+      logger.debug 'Client disconnected, disconnecting from rrdcached'
       rrdcached_socket.puts 'QUIT'
       rrdcached_socket.close
     end
