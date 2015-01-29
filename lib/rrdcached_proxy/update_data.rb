@@ -2,14 +2,15 @@ module RRDCachedProxy
   class UpdateData
     class InvalidTimestamp < StandardError; end
 
-    Point = Struct.new(:name, :value, :timestamp)
+    Point = Struct.new(:name, :value, :timestamp, :metadata)
 
-    attr_reader :rrd_path, :timestamped_values, :field_names
+    attr_reader :rrd_path, :timestamped_values, :field_names, :metadata_regexp
 
-    def initialize(request, field_names)
+    def initialize(request, field_names, metadata_regexp = //)
       @rrd_path = request.arguments.shift
       @timestamped_values = request.arguments
       @field_names = field_names
+      @metadata_regexp = metadata_regexp
     end
 
     def points
@@ -19,11 +20,16 @@ module RRDCachedProxy
         timestamp, field_values = extract_timestamp_and_field_values timestamped_value
 
         field_values.each_with_index do |value, index|
-          @points << Point.new(field_names[index], value.to_f, timestamp)
+          @points << Point.new(field_names[index], value.to_f, timestamp, metadata)
         end
       end
 
       @points
+    end
+
+    def metadata
+      match = rrd_path.match metadata_regexp
+      Hash[ match.names.zip(match.captures) ]
     end
 
     private
