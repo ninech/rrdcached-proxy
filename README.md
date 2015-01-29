@@ -17,20 +17,32 @@ vagrant up
 
 ## Usage
 
+Create sample RRD
+
+```
+rrdtool create /tmp/test.rrd        \
+         --start 920804400          \
+         DS:speed:COUNTER:600:U:U   \
+         RRA:AVERAGE:0.5:1:24       \
+         RRA:AVERAGE:0.5:6:10
+```
+
 Start a server
 
 ```
 vagrant ssh
 
 cd /vagrant
-sudo rm /tmp/test.sock ; sudo ruby bin/test.rb
+bundle install
+sudo ruby bin/rrdcached-proxy
 ```
 
 Start client
 
 ```
 vagrant ssh
-sudo socat - UNIX-CONNECT:/tmp/test.sock
+sudo socat - UNIX-CONNECT:/var/run/rrdcached-proxy.sock
 # try HELP as command
+UPDATE /tmp/test.rrd 1422541269:600
 ```
 
