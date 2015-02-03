@@ -11,6 +11,8 @@ module RRDCachedProxy
     DEFAULT_LISTEN_SOCKET = '/var/run/rrdcached-proxy.sock'
     DEFAULT_RRDCACHED_SOCKET = '/var/run/rrdcached.sock'
 
+    DEFAULT_METADATA_REGEXP = //
+
     DEFAULT_LOG_DESTINATION = :syslog
     DEFAULT_LOG_LEVEL = :info
 
@@ -21,6 +23,7 @@ module RRDCachedProxy
       config: {
         listen_socket: DEFAULT_LISTEN_SOCKET,
         rrdcached_socket: DEFAULT_RRDCACHED_SOCKET,
+        metadata_regexp: DEFAULT_METADATA_REGEXP,
         influxdb: {
           database: DEFAULT_INFLUXDB_DATABASE,
         },
@@ -58,6 +61,10 @@ module RRDCachedProxy
 
         opts.on('--backend=BACKEND', 'Backend to use') do |backend|
           options[:config][:backend] = backend
+        end
+
+        opts.on('--metadata-regexp=METADATA_REGEXP', 'Named Regexp to read metadata from the rrd path') do |regexp|
+          options[:config][:metadata_regexp] = Regexp.new regexp
         end
 
         opts.on('-c', '--config-file=PATH', "Path to config file (default: #{DEFAULT_CONFIG_FILE_PATH})") do |path|
