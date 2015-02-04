@@ -7,7 +7,8 @@ RSpec.describe RRDCachedProxy::Daemon do
     {
       rrdcached_socket: '/tmp/rrdcached.sock',
       listen_socket: '/tmp/listen.sock',
-      log: { destination: :stdout, level: :fatal }
+      metadata_regexp: //,
+      log: { destination: :stdout, level: :fatal },
     }
   end
   let(:instance) { RRDCachedProxy::Daemon.new(config) }
@@ -43,6 +44,7 @@ RSpec.describe RRDCachedProxy::Daemon do
           logger: instance_of(Logger),
           backend: instance_of(RRDCachedProxy::Backends::Base),
           rrdcached_socket: '/tmp/rrdcached.sock',
+          metadata_regexp: //,
           blacklist: nil,
         )
 
@@ -63,6 +65,7 @@ RSpec.describe RRDCachedProxy::Daemon do
           logger: instance_of(Logger),
           backend: 'influxdb-backend',
           rrdcached_socket: '/tmp/rrdcached.sock',
+          metadata_regexp: //,
           blacklist: nil,
         )
 

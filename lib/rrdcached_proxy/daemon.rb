@@ -20,6 +20,7 @@ module RRDCachedProxy
         backend: backend,
         rrdcached_socket: @config[:rrdcached_socket],
         blacklist: @config[:blacklist],
+        metadata_regexp: @config[:metadata_regexp],
       }
 
       EventMachine.run do

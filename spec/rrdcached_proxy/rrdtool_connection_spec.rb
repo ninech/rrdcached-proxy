@@ -25,12 +25,14 @@ RSpec.describe RRDCachedProxy::RRDToolConnection do
   let(:backend) { double(RRDCachedProxy::Backends::Base) }
   let(:socket) { '/var/run/rrdcached.sock' }
   let(:blacklist) { nil }
+  let(:metadata_regexp) { // }
 
   let(:instance) do
     TestConnection.new(em_signature, logger: logger,
                                      backend: backend,
                                      rrdcached_socket: socket,
-                                     blacklist: blacklist)
+                                     blacklist: blacklist,
+                                     metadata_regexp: metadata_regexp)
   end
 
   before do

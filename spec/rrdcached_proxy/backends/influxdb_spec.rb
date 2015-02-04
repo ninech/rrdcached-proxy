@@ -65,8 +65,8 @@ RSpec.describe RRDCachedProxy::Backends::InfluxDB do
   describe '#write' do
     it 'writes the points to InfluxDB' do
       expect(influx_connection_double).
-        to receive(:write_point).with('test77', { value: 3, time: 2 }, true, 's')
-      instance.write [RRDCachedProxy::UpdateData::Point.new('test77', 3, 2)]
+        to receive(:write_point).with('test77', { value: 3, time: 2, metadata1: 'foobar' }, true, 's')
+      instance.write [RRDCachedProxy::UpdateData::Point.new('test77', 3, 2, metadata1: 'foobar')]
     end
   end
 end

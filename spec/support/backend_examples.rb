@@ -27,6 +27,7 @@ shared_examples_for 'a backend' do
         allow(point1).to receive(:name).and_return('point1')
         allow(point1).to receive(:value).and_return(42)
         allow(point1).to receive(:timestamp).and_return(Time.now.to_i)
+        allow(point1).to receive(:metadata).and_return({})
       end
 
       specify { expect { subject }.to_not raise_error }
@@ -39,10 +40,12 @@ shared_examples_for 'a backend' do
         allow(point1).to receive(:name).and_return('point1')
         allow(point1).to receive(:value).and_return(42)
         allow(point1).to receive(:timestamp).and_return(Time.now.to_i)
+        allow(point1).to receive(:metadata).and_return({})
 
         allow(point2).to receive(:name).and_return('point2')
         allow(point2).to receive(:value).and_return(1337)
         allow(point2).to receive(:timestamp).and_return(Time.now.to_i)
+        allow(point2).to receive(:metadata).and_return({})
       end
 
       specify { expect { subject }.to_not raise_error }

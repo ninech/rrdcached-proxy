@@ -14,10 +14,8 @@ module RRDCachedProxy
 
       def write(points)
         points.each do |point|
-          data = {
-            value: point.value,
-            time: point.timestamp,
-          }
+          data = point.metadata.merge value: point.value,
+                                      time:  point.timestamp
           connection.write_point point.name, data, true, 's'
         end
       end
