@@ -62,6 +62,9 @@ module RRDCachedProxy
       logger.debug 'Writing to backend'
 
       backend.write UpdateData.new(request, field_names, metadata_regexp).points
+
+    rescue StandardError => e
+      logger.error e.message
     end
 
     def unbind
