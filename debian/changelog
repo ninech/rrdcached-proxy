@@ -1,3 +1,7 @@
+rrdcached-proxy (0.0.2) unstable; urgency=low
+
+  * Allow metadata regex to get infos from RRD path
+
 rrdcached-proxy (0.0.1) unstable; urgency=low
 
   * Fix ruby path in bin file
