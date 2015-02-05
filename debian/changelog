@@ -1,3 +1,9 @@
+rrdcached-proxy (0.0.3) unstable; urgency=low
+
+  * Fix Building Process
+
+ -- Roman Plessl <roman.plessl@nine.ch>  Thu, 05 Feb 2015 13:36:00 +0000
+
 rrdcached-proxy (0.0.2) unstable; urgency=low
 
   * Allow metadata regex to get infos from RRD path
