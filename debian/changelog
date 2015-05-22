@@ -1,3 +1,10 @@
+rrdcached-proxy (1.0.0) unstable; urgency=low
+
+  * Remove autocreating of influxdb databases
+  * Use database from config in influxdb backend
+
+ -- Raffael Schmid <raffael.schmid@nine.ch>  Fri, 22 May 2015 13:42:37 +0000
+
 rrdcached-proxy (0.0.3) unstable; urgency=low
 
   * Fix Building Process
