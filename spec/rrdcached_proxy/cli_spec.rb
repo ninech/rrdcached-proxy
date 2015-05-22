@@ -21,7 +21,7 @@ RSpec.describe RRDCachedProxy::CLI do
     context 'config via file' do
       before do
         allow(File).to receive(:exists?).with('/tmp/config.yml').and_return(config_file_exists)
-        allow(YAML).to receive(:load_file).and_return('listen_socket' => '/tmp/other.sock')
+        allow(YAML).to receive(:load_file).and_return(listen_socket: '/tmp/other.sock')
       end
 
       let(:arguments) { %w(-c /tmp/config.yml) }
@@ -30,7 +30,7 @@ RSpec.describe RRDCachedProxy::CLI do
         let(:config_file_exists) { true }
 
         it 'loads the config from the config file' do
-          expect(YAML).to receive(:load_file).and_return('listen_socket' => '/tmp/other.sock')
+          expect(YAML).to receive(:load_file).and_return(listen_socket: '/tmp/other.sock')
           expect { instance.run }.to change { instance.config[:listen_socket] }
         end
 
