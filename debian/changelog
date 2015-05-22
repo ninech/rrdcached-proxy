@@ -1,3 +1,9 @@
+rrdcached-proxy (1.0.2) unstable; urgency=low
+
+  * Use Hash#deep_merge to merge the config options
+
+ -- Raffael Schmid <raffael.schmid@nine.ch>  Fri, 22 May 2015 15:52:37 +0000
+
 rrdcached-proxy (1.0.1) unstable; urgency=low
 
   * fix load order of default parameters, config file and cli params
