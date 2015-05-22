@@ -1,3 +1,9 @@
+rrdcached-proxy (1.0.1) unstable; urgency=low
+
+  * fix load order of default parameters, config file and cli params
+
+ -- Raffael Schmid <raffael.schmid@nine.ch>  Fri, 22 May 2015 15:42:37 +0000
+
 rrdcached-proxy (1.0.0) unstable; urgency=low
 
   * Remove autocreating of influxdb databases
