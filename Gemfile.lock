@@ -12,7 +12,6 @@ GEM
       rspec (> 2.6.0)
       test-unit
     eventmachine (1.0.4)
-    hashie (3.3.2)
     influxdb (0.1.8)
       json
     json (1.8.1)
@@ -48,7 +47,6 @@ DEPENDENCIES
   codeclimate-test-reporter
   em-spec
   eventmachine
-  hashie
   influxdb
   rake
   rrd-ruby
