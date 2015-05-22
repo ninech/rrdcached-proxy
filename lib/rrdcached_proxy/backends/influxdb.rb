@@ -5,11 +5,14 @@ require 'rrdcached_proxy/backends/base'
 module RRDCachedProxy
   module Backends
     class InfluxDB < Base
+      attr_reader :database
+
       def initialize(config)
         super
 
+        @database = config[:database]
+
         ::InfluxDB::Logging.logger = @config[:logger]
-        ensure_database
       end
 
       def write(points)
@@ -20,20 +23,8 @@ module RRDCachedProxy
         end
       end
 
-      private
-
       def connection
         @connection ||= ::InfluxDB::Client.new database, access_config
-      end
-
-      def database
-        @database ||= Socket.gethostname
-      end
-
-      def ensure_database
-        return if connection.get_database_list.detect { |db| db['name'] == database }
-        logger.info "[InfluxDB] Creating database #{database}"
-        connection.create_database database
       end
 
       def access_config

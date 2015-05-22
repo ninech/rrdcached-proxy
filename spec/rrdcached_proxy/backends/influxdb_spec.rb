@@ -7,9 +7,9 @@ RSpec.describe RRDCachedProxy::Backends::InfluxDB do
 
   let(:influx_connection_double) { instance_double(::InfluxDB::Client) }
   let(:instance) { RRDCachedProxy::Backends::InfluxDB.new(config) }
-  let(:database_name) { Socket.gethostname }
+  let(:database_name) { 'db1' }
   let(:logger) { Logger.new(StringIO.new) }
-  let(:config) { { logger: logger } }
+  let(:config) { { database: database_name, logger: logger } }
 
   before do
     allow(::InfluxDB::Client).to receive(:new).and_return(influx_connection_double)
@@ -20,38 +20,13 @@ RSpec.describe RRDCachedProxy::Backends::InfluxDB do
 
   it_behaves_like 'a backend'
 
-  describe '#ensure_database' do
-    context 'database exists' do
-      before do
-        allow(influx_connection_double).
-          to receive(:get_database_list).and_return([{ 'name' => database_name }])
-      end
-
-      it 'does not create the database' do
-        expect(influx_connection_double).to_not receive(:create_database)
-        instance
-      end
-    end
-
-    context 'database does not exist' do
-      before do
-        allow(influx_connection_double).to receive(:get_database_list).and_return([])
-      end
-
-      it 'does not create the database' do
-        expect(influx_connection_double).to receive(:create_database).with(database_name)
-        instance
-      end
-    end
-  end
-
   describe '#connection' do
     let(:access_config) { { username: 'testi', password: 'supersecure', hosts: %w(example.org) } }
-    let(:config) { { logger: logger }.merge(access_config) }
+    let(:config) { { database: database_name, logger: logger }.merge(access_config) }
 
-    it 'conntects to the specified database' do
+    it 'connects to the specified database' do
       expect(::InfluxDB::Client).to receive(:new).with(database_name, access_config)
-      instance
+      instance.connection
     end
   end
 
