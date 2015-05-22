@@ -4,6 +4,7 @@ gem 'eventmachine'
 gem 'influxdb'
 gem 'rrd-ruby'
 gem 'syslogger'
+gem 'activesupport'
 
 group :development, :test do
   gem 'rspec'

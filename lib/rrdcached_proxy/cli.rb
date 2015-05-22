@@ -3,6 +3,7 @@ require 'socket'
 require 'yaml'
 
 require 'rrdcached_proxy/daemon'
+require 'active_support/core_ext/hash/deep_merge'
 
 module RRDCachedProxy
   class CLI
@@ -114,8 +115,8 @@ module RRDCachedProxy
       opt_parser.parse!(arguments)
 
       @config = DEFAULT_OPTIONS[:config].
-        merge(load_yaml(cli_options[:config_file])).
-        merge(cli_options[:config])
+        deep_merge(load_yaml(cli_options[:config_file])).
+        deep_merge(cli_options[:config])
 
       Daemon.new(@config).run
     end
