@@ -1,14 +1,15 @@
 source 'https://rubygems.org'
 
+gem 'activesupport'
 gem 'eventmachine'
 gem 'influxdb'
+gem 'opentsdb'
 gem 'rrd-ruby'
 gem 'syslogger'
-gem 'activesupport'
 
 group :development, :test do
-  gem 'rspec'
+  gem 'codeclimate-test-reporter', require: nil
   gem 'em-spec', require: false
   gem 'rake'
-  gem 'codeclimate-test-reporter', require: nil
+  gem 'rspec'
 end

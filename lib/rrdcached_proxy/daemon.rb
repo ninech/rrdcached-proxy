@@ -53,6 +53,8 @@ module RRDCachedProxy
       case @config[:backend]
       when 'influxdb'
         Backends::InfluxDB.new backend_config.merge(@config[:influxdb])
+      when 'opentsdb'
+        Backends::OpenTSDB.new backend_config.merge(@config[:opentsdb])
       else
         Backends::Base.new backend_config
       end

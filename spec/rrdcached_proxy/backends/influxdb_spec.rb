@@ -30,7 +30,7 @@ RSpec.describe RRDCachedProxy::Backends::InfluxDB do
     end
   end
 
-  describe 'influx logging' do
+  describe 'logging' do
     it 'sets the logger of influx' do
       expect(::InfluxDB::Logging).to receive(:logger=).with(logger)
       instance

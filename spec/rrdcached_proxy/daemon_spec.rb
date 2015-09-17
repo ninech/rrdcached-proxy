@@ -28,6 +28,7 @@ RSpec.describe RRDCachedProxy::Daemon do
       allow(EventMachine).to receive(:run).and_yield
       allow(EventMachine).to receive(:start_unix_domain_server)
       allow(RRDCachedProxy::Backends::InfluxDB).to receive(:new).and_return('influxdb-backend')
+      allow(RRDCachedProxy::Backends::OpenTSDB).to receive(:new).and_return('opentsdb-backend')
     end
 
     it 'starts a new eventmachine server on a socket' do
@@ -64,6 +65,27 @@ RSpec.describe RRDCachedProxy::Daemon do
           RRDCachedProxy::RRDToolConnection,
           logger: instance_of(Logger),
           backend: 'influxdb-backend',
+          rrdcached_socket: '/tmp/rrdcached.sock',
+          metadata_regexp: //,
+          blacklist: nil,
+        )
+
+        instance.run
+      end
+    end
+
+    context 'opentsdb backend specified' do
+      before do
+        config[:backend] = 'opentsdb'
+        config[:opentsdb] = {}
+      end
+
+      it 'provides the socket, the service, the logger and the backend' do
+        expect(EventMachine).to receive(:start_unix_domain_server).with(
+          instance_of(String),
+          RRDCachedProxy::RRDToolConnection,
+          logger: instance_of(Logger),
+          backend: 'opentsdb-backend',
           rrdcached_socket: '/tmp/rrdcached.sock',
           metadata_regexp: //,
           blacklist: nil,
