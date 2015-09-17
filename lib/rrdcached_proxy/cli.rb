@@ -122,9 +122,6 @@ module RRDCachedProxy
           cli_options[:config][:opentsdb][:port] = port
         end
 
-        opts.on('--opentsdb-port=PORT', 'OpenTSDB port') do |port|
-          cli_options[:config][:opentsdb][:port] = port
-        end
 
         opts.on('--opentsdb-namespace=PORT', 'OpenTSDB namespace used for metric-names (e.g. mycompany.some_metrics)') do |port|
           cli_options[:config][:opentsdb][:namespace] = port
