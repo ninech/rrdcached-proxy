@@ -1,3 +1,9 @@
+rrdcached-proxy (1.1.1) unstable; urgency=low
+
+  * Fix bug when using OpenTSDB backend
+
+ -- Samuel Sieg <samuel.sieg@nine.ch>  Thu, 17 Sep 2015 11:13:43 +0000
+
 rrdcached-proxy (1.1.0) unstable; urgency=low
 
   * Add OpenTSDB backend
