@@ -6,6 +6,7 @@ APP_ROOT = File.join(File.dirname(Pathname.new(__FILE__).realpath), '..')
 Dir[File.join(APP_ROOT, 'spec/support/**/*.rb')].each { |f| require f }
 
 require 'influxdb'
+require 'opentsdb'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -29,5 +30,6 @@ RSpec.configure do |config|
 
   config.before(:each) do
     allow(InfluxDB::Client).to receive(:new).and_raise('This should be mocked')
+    allow(OpenTSDB::Client).to receive(:new).and_raise('This should be mocked')
   end
 end

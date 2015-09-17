@@ -1,7 +1,7 @@
 module RRDCachedProxy
   module Backends
     class Base
-      attr_reader :logger
+      attr_reader :config, :logger
 
       def initialize(config)
         @config = config

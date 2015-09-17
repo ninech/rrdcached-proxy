@@ -110,6 +110,21 @@ module RRDCachedProxy
         opts.on('--influxdb-hosts=HOST,HOST', 'Backend hosts') do |hosts|
           cli_options[:config][:influxdb][:hosts] = hosts.split(',')
         end
+
+        opts.separator ''
+        opts.separator 'OpenTSDB Backend:'
+
+        opts.on('--opentsdb-host=HOST', 'OpenTSDB hostname') do |hostname|
+          cli_options[:config][:opentsdb][:hostname] = hostname
+        end
+
+        opts.on('--opentsdb-port=PORT', 'OpenTSDB port') do |port|
+          cli_options[:config][:opentsdb][:port] = port
+        end
+
+        opts.on('--opentsdb-namespace=NAMESPACE', 'OpenTSDB namespace used for metric-names (e.g. mycompany.some_metrics)') do |port|
+          cli_options[:config][:opentsdb][:namespace] = port
+        end
       end
 
       opt_parser.parse!(arguments)

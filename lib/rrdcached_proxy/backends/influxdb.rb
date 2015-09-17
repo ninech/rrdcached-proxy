@@ -12,7 +12,7 @@ module RRDCachedProxy
 
         @database = config[:database]
 
-        ::InfluxDB::Logging.logger = @config[:logger]
+        ::InfluxDB::Logging.logger = config[:logger]
       end
 
       def write(points)
@@ -29,9 +29,9 @@ module RRDCachedProxy
 
       def access_config
         {
-          username: @config[:username],
-          password: @config[:password],
-          hosts: @config[:hosts],
+          username: config[:username],
+          password: config[:password],
+          hosts: config[:hosts]
         }
       end
     end
