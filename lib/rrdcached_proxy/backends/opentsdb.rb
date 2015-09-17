@@ -12,7 +12,7 @@ module RRDCachedProxy
 
         @namespace = config[:namespace]
 
-        ::OpenTSDB.logger = @config[:logger]
+        ::OpenTSDB.logger = config[:logger]
       end
 
       def write(points)
@@ -30,8 +30,8 @@ module RRDCachedProxy
 
       def access_config
         {
-          hostname: @config[:hostname],
-          port: @config[:port]
+          hostname: config[:hostname],
+          port: config[:port]
         }
       end
     end

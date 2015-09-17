@@ -29,9 +29,9 @@ module RRDCachedProxy
 
       def access_config
         {
-          username: @config[:username],
-          password: @config[:password],
-          hosts: @config[:hosts],
+          username: config[:username],
+          password: config[:password],
+          hosts: config[:hosts]
         }
       end
     end
