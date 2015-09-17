@@ -12,7 +12,7 @@ module RRDCachedProxy
 
         @database = config[:database]
 
-        ::InfluxDB::Logging.logger = @config[:logger]
+        ::InfluxDB::Logging.logger = config[:logger]
       end
 
       def write(points)
