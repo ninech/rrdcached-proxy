@@ -8,7 +8,8 @@ RSpec.describe RRDCachedProxy::Backends::OpenTSDB do
   let(:opentsdb_connection_double) { instance_double(::OpenTSDB::Client) }
   let(:instance) { RRDCachedProxy::Backends::OpenTSDB.new(config) }
   let(:logger) { Logger.new(StringIO.new) }
-  let(:config) { { logger: logger } }
+  let(:namespace) { 'my.metrics' }
+  let(:config) { { namespace: namespace, logger: logger } }
 
   before do
     allow(::OpenTSDB::Client).to receive(:new).and_return(opentsdb_connection_double)
@@ -38,7 +39,7 @@ RSpec.describe RRDCachedProxy::Backends::OpenTSDB do
     it 'writes the points to OpenTSDB' do
       expect(opentsdb_connection_double).
         to receive(:put).with(
-          metric: 'nine.network_ports.test77', value: 3, timestamp: 2, tags: { metadata1: 'foobar' }
+          metric: 'my.metrics.test77', value: 3, timestamp: 2, tags: { metadata1: 'foobar' }
         )
       instance.write [RRDCachedProxy::UpdateData::Point.new('test77', 3, 2, metadata1: 'foobar')]
     end

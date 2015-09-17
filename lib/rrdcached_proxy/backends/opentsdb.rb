@@ -5,17 +5,19 @@ require 'rrdcached_proxy/backends/base'
 module RRDCachedProxy
   module Backends
     class OpenTSDB < Base
-      METRIC_KEY_TEMPLATE = 'nine.network_ports.%{name}'
+      attr_reader :namespace
 
       def initialize(config)
         super
+
+        @namespace = config[:namespace]
 
         ::OpenTSDB.logger = @config[:logger]
       end
 
       def write(points)
         points.each do |point|
-          connection.put metric: METRIC_KEY_TEMPLATE % { name: point.name },
+          connection.put metric: "#{namespace}.#{point.name}",
                          value: point.value,
                          timestamp: point.timestamp,
                          tags: point.metadata
