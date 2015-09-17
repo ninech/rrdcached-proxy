@@ -45,6 +45,7 @@ module RRDCachedProxy
       cli_options = {
         config: {
           influxdb: {},
+          opentsdb: {},
           log: {},
         }
       }
